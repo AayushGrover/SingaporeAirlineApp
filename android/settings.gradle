@@ -1,0 +1,3 @@
+rootProject.name = 'siac_hack'
+
+include ':app'
