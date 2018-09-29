@@ -8,3 +8,7 @@ export const WEATHER = 'WEATHER';
 
 export const POI_LOADING = 'POI_LOADING';
 export const PLACES_OF_INTEREST = 'PLACES_OF_INTEREST';
+
+export const PNR_URL = 'https://apigw.singaporeair.com/appchallenge/api';
+export const PNR = 'PNR';
+export const PNR_LOADING = 'PNR_LOADING';

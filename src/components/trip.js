@@ -14,19 +14,9 @@ import {
 	Right
 } from 'native-base';
 import UpcomingTrip from './upcomingTrip';
-// import { getWeather } from '../actions/weatherAction';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
-class Trip extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
-
-	componentWillMount() {
-		// this.props.getWeather('Singapore');
-	}
-
+export default class Trip extends Component {
 	render() {
 		return (
 			<Container>
@@ -69,18 +59,3 @@ class Trip extends Component {
 		);
 	}
 }
-
-function matchDispatchToProps(dispatch) {
-	return bindActionCreators(
-		{
-			// getWeather: getWeather
-		},
-		dispatch
-	);
-}
-
-const mapStateToProps = state => ({
-	// weather: state.weather
-});
-
-export default connect(mapStateToProps, matchDispatchToProps)(Trip);

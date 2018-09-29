@@ -9,7 +9,8 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-// import { getWeather } from '../actions/weatherAction';
+import { getPNR } from '../actions/pnrAction';
+import { c2cd } from '../assets/codeToCountry';
 
 import { StyleSheet, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
@@ -21,29 +22,58 @@ class Trip extends Component {
 	}
 
 	componentWillMount() {
-		// this.props.getWeather('Singapore');
+		this.props.getPNR('JWRKQC', 'Greig');
+	}
+
+	getTime(time) {
+		// Create a new JavaScript Date object based on the timestamp
+		// multiplied by 1000 so that the argument is in milliseconds, not seconds.
+		var date = new Date(time);
+		// Hours part from the timestamp
+		var hours = date.getHours();
+		// Minutes part from the timestamp
+		var minutes = '0' + date.getMinutes();
+		// Seconds part from the timestamp
+		var seconds = '0' + date.getSeconds();
+
+		// Will display time in 10:30:23 format
+		var formattedTime = hours + ':' + minutes.substr(-2);
+		return formattedTime;
+	}
+
+	getFullDate(date) {
+		var event = new Date(date);
+		return event.toDateString();
 	}
 
 	render() {
 		return (
-			// <ScrollView
-			// 	style={{ flex: 1 }}
-			// 	keyboardShouldPersistTaps="always"
-			// 	showsVerticalScrollIndicator={false}
-			// >
 			<ImageBackground
 				source={require('../assets/blue.jpg')}
 				style={styles.backgroundImage}
 			>
 				<View style={styles.heading}>
 					<Text style={[styles.whiteText, styles.bigText]}>
-						Tokyo
+						{
+							c2cd[
+								this.props.pnr.flights[0].flightSegment[0]
+									.destination.countryCode
+							]
+						}
 					</Text>
 					<Text style={styles.whiteText}>
-						22 Sept 2017-22 Sept 2017
+						{this.getFullDate(
+							this.props.pnr.flights[0].flightSegment[0]
+								.estimatedDepartureTime
+						)}{' '}
+						-{' '}
+						{this.getFullDate(
+							this.props.pnr.flights[0].flightSegment[0]
+								.estimatedArrivalTime
+						)}
 					</Text>
 					<Text style={[styles.whiteText, { fontSize: 11 }]}>
-						Booking reference ANDPQ
+						Booking reference {this.props.pnr.bookingReference}
 					</Text>
 				</View>
 				<View style={styles.flyingDetailsContainer}>
@@ -65,40 +95,81 @@ class Trip extends Component {
 					<View style={styles.horizontalBox}>
 						<View style={styles.sourceContainer}>
 							<Text style={[styles.whiteText, styles.bigText]}>
-								Singapore
+								{
+									c2cd[
+										this.props.pnr.flights[0]
+											.flightSegment[0].origin.countryCode
+									]
+								}
 							</Text>
 							<Text style={styles.whiteText}>
-								Singapore airport
+								{
+									this.props.pnr.flights[0].flightSegment[0]
+										.origin.airportName
+								}
 							</Text>
-							<Text style={styles.whiteText}>Terminal 2</Text>
+							<Text style={styles.whiteText}>
+								Terminal{' '}
+								{
+									this.props.pnr.flights[0].flightSegment[0]
+										.origin.terminalNumber
+								}
+							</Text>
 						</View>
 						<View style={styles.destinationContainer}>
 							<Text style={[styles.whiteText, styles.bigText]}>
-								Tokyo
+								{
+									c2cd[
+										this.props.pnr.flights[0]
+											.flightSegment[0].destination
+											.countryCode
+									]
+								}
 							</Text>
 							<Text style={styles.whiteText}>
-								Tokyo International airport
+								{
+									this.props.pnr.flights[0].flightSegment[0]
+										.destination.airportName
+								}
 							</Text>
-							<Text style={styles.whiteText}>Terminal 2</Text>
+							<Text style={styles.whiteText}>
+								Terminal{' '}
+								{
+									this.props.pnr.flights[0].flightSegment[0]
+										.destination.terminalNumber
+								}
+							</Text>
 						</View>
 					</View>
 					<View style={styles.horizontalBox}>
 						<View style={styles.sourceContainer}>
 							<Text style={styles.whiteText}>
-								Fri, September 2, 2017
+								{this.getFullDate(
+									this.props.pnr.flights[0].flightSegment[0]
+										.estimatedDepartureTime
+								)}
 							</Text>
 							<Text style={styles.whiteText}>Scheduled</Text>
 							<Text style={[styles.whiteText, styles.bigText]}>
-								08:00
+								{this.getTime(
+									this.props.pnr.flights[0].flightSegment[0]
+										.estimatedDepartureTime
+								)}
 							</Text>
 						</View>
 						<View style={styles.destinationContainer}>
 							<Text style={styles.whiteText}>
-								Fri, September 2, 2017
+								{this.getFullDate(
+									this.props.pnr.flights[0].flightSegment[0]
+										.estimatedArrivalTime
+								)}
 							</Text>
 							<Text style={styles.whiteText}>Scheduled</Text>
 							<Text style={[styles.whiteText, styles.bigText]}>
-								18:00
+								{this.getTime(
+									this.props.pnr.flights[0].flightSegment[0]
+										.estimatedArrivalTime
+								)}
 							</Text>
 						</View>
 					</View>
@@ -120,7 +191,9 @@ class Trip extends Component {
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
-							onPress={() => {}}
+							onPress={() => {
+								Actions.currency();
+							}}
 							style={[styles.horizontalBox, styles.functions]}
 						>
 							<Text style={[styles.whiteText, { fontSize: 17 }]}>
@@ -128,7 +201,9 @@ class Trip extends Component {
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
-							onPress={() => {}}
+							onPress={() => {
+								Actions.weather();
+							}}
 							style={[styles.horizontalBox, styles.functions]}
 						>
 							<Text style={[styles.whiteText, { fontSize: 17 }]}>
@@ -144,7 +219,9 @@ class Trip extends Component {
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
-							onPress={() => {}}
+							onPress={() => {
+								Actions.placesOfInterest();
+							}}
 							style={[styles.horizontalBox, styles.functions]}
 						>
 							<Text style={[styles.whiteText, { fontSize: 17 }]}>
@@ -154,7 +231,6 @@ class Trip extends Component {
 					</View>
 				</View>
 			</ImageBackground>
-			// </ScrollView>
 		);
 	}
 }
@@ -162,14 +238,14 @@ class Trip extends Component {
 function matchDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
-			// getWeather: getWeather
+			getPNR: getPNR
 		},
 		dispatch
 	);
 }
 
 const mapStateToProps = state => ({
-	// weather: state.weather
+	pnr: state.pnr.pnr.responseBody
 });
 
 const styles = StyleSheet.create({

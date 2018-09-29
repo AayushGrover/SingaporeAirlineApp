@@ -21,6 +21,21 @@ export default class App extends Component {
 					<ConnectedRouter>
 						<Scene key="root">
 							<Scene key="trip" hideNavBar component={Trip} />
+							<Scene
+								key="currency"
+								hideNavBar
+								component={CurrencyRate}
+							/>
+							<Scene
+								key="weather"
+								hideNavBar
+								component={Weather}
+							/>
+							<Scene
+								key="placesOfInterest"
+								hideNavBar
+								component={PlacesOfInterest}
+							/>
 						</Scene>
 					</ConnectedRouter>
 				</PersistGate>

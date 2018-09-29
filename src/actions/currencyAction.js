@@ -12,9 +12,11 @@ export const getCurrencyRate = (from, to) => {
 			})
 			.then(data => {
 				dispatch(storeCurrencyRate(data[from + '_' + to]['val']));
+				dispatch(currencyLoading(false));
 			})
 			.catch(error => {
 				dispatch(handleError(error));
+				dispatch(currencyLoading(false));
 			});
 		// });
 	};

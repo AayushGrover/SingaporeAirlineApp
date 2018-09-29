@@ -16,9 +16,11 @@ export const getPOI = to => {
 			})
 			.then(data => {
 				dispatch(getPOIhelper(data));
+				dispatch(poiLoading(false));
 			})
 			.catch(error => {
 				dispatch(handleError(error));
+				dispatch(poiLoading(false));
 			});
 		// });
 	};

@@ -15,9 +15,11 @@ export const getWeather = to => {
 			})
 			.then(data => {
 				dispatch(getWeatherHelper(data));
+				dispatch(weatherLoading(false));
 			})
 			.catch(error => {
 				dispatch(handleError(error));
+				dispatch(weatherLoading(false));
 			});
 		// });
 	};
