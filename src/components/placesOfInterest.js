@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Text, View, FlatList } from 'react-native';
+import { Image, Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -62,8 +62,10 @@ class PlacesOfInterest extends Component {
 	render() {
 		if (this.props.poi.poi_loading || this.state.loading) {
 			return (
-				<View>
-					<Text>hi</Text>
+				<View
+					style={{ justifyContent: 'center', alignItems: 'center' }}
+				>
+					<ActivityIndicator size="large" color="blue" />
 				</View>
 			);
 		} else {

@@ -9,6 +9,9 @@ import Weather from './src/components/weather';
 import PlacesOfInterest from './src/components/placesOfInterest';
 import Trip from './src/components/trip';
 
+import InFlightDelivery from './src/components/InFlight';
+import Voice from './src/components/voice';
+
 import configureStore from './src/utils/store';
 let { store, persistor } = configureStore();
 const ConnectedRouter = connect()(Router);
@@ -20,7 +23,12 @@ export default class App extends Component {
 				<PersistGate loading={null} persistor={persistor}>
 					<ConnectedRouter>
 						<Scene key="root">
-							<Scene key="trip" hideNavBar component={Trip} />
+							{/* <Scene
+								key="trip"
+								hideNavBar
+								component={Trip}
+								initial
+							/>
 							<Scene
 								key="currency"
 								hideNavBar
@@ -35,6 +43,11 @@ export default class App extends Component {
 								key="placesOfInterest"
 								hideNavBar
 								component={PlacesOfInterest}
+							/> */}
+							<Scene
+								key="inFlightDelivery"
+								hideNavBar
+								component={InFlightDelivery}
 							/>
 						</Scene>
 					</ConnectedRouter>
